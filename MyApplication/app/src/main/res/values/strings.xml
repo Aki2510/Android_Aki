@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">My Application</string>
+
+    <string name="home_title">Deliveries</string>
+    <string name="drawer_open">Open Drawer</string>
+    <string name="drawer_close">Close Drawer</string>
+
+    <integer-array name="drawer_drawable">
+        <item>@drawable/ic_work_black_24dp</item>
+        <item>@drawable/ic_explore_black_24dp</item>
+        <item>@drawable/ic_restore_black_24dp</item>
+        <item>@drawable/ic_question_answer_black_24dp</item>
+        <item>@drawable/ic_info_black_24dp</item>
+    </integer-array>
+
+    <string-array name="drawer_text">
+        <item>Deliveries</item>
+        <item>Explore</item>
+        <item>Orders History</item>
+        <item>Contributions</item>
+        <item>Help and Feedback</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_filters">Filters</string>
 </resources>
