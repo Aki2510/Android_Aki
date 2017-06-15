@@ -82,6 +82,9 @@ public class MainActivity extends AppCompatActivity
             }
 
         });
+
+        switchFragment(0);
+        setTitle("Deliveries");
     }
 
     @Override
