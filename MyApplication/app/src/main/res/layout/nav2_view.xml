@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -7,21 +7,26 @@
 
 
     <Switch
-        android:paddingTop="16dp"
-        android:layout_width="wrap_content"
+        android:id="@+id/my_switch"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
         android:text="Open Now" />
 
 
     <SeekBar
+        android:layout_below="@id/my_switch"
         android:id="@+id/my_seekbar"
+        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <LinearLayout
+        android:id="@+id/seek_bar_range"
+        android:layout_below="@id/my_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         android:orientation="horizontal">
 
         <TextView
@@ -37,23 +42,38 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/cuisine_title"
+        android:layout_below="@id/seek_bar_range"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cuicines" />
+        android:layout_marginTop="16dp"
+        android:text="Cuisines" />
 
     <org.apmem.tools.layouts.FlowLayout
+        android:id="@+id/flow_layout"
+        android:layout_below="@id/cuisine_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-        <TextView
-            android:text="aaaa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:text="aaaa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
     </org.apmem.tools.layouts.FlowLayout>
 
-
-</LinearLayout>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_all"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="ALL"
+            android:onClick="onClick"/>
+        <Button
+            android:id="@+id/btn_none"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="NONE"
+            android:onClick="onClick"/>
+    </LinearLayout>
+</RelativeLayout>

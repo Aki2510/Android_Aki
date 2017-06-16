@@ -1,10 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Created by Aki on 6/14/2017.
  */
 
-public class Delivery {
+public class Delivery implements Serializable {
+    private String tvCategory;
     private String tvName;
     private String tvAddress;
     private String tvCountry;
@@ -12,14 +15,12 @@ public class Delivery {
     private String tvPriceRange;
 
 
-    public Delivery(String tvName, String tvAddress, String tvCountry, String ivImage) {
+    public Delivery(String tvCategory, String tvName, String tvAddress, String tvCountry, String ivImage, String tvPriceRange) {
+        this.tvCategory = tvCategory;
         this.tvName = tvName;
         this.tvAddress = tvAddress;
         this.tvCountry = tvCountry;
         this.ivImage = ivImage;
-    }
-
-    public Delivery(String tvPriceRange) {
         this.tvPriceRange = tvPriceRange;
     }
 
@@ -37,14 +38,6 @@ public class Delivery {
 
     public void setTvAddress(String tvAddress) {
         this.tvAddress = tvAddress;
-    }
-
-    public String gettvCountry() {
-        return tvCountry;
-    }
-
-    public void settvCountry(String tvCountry) {
-        this.tvCountry = tvCountry;
     }
 
     public String getIvImage() {
@@ -69,5 +62,13 @@ public class Delivery {
 
     public void setTvPriceRange(String tvPriceRange) {
         this.tvPriceRange = tvPriceRange;
+    }
+
+    public String getTvCategory() {
+        return tvCategory;
+    }
+
+    public void setTvCategory(String tvCategory) {
+        this.tvCategory = tvCategory;
     }
 }

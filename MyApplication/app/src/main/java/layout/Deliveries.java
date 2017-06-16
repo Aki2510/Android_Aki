@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +33,14 @@ public class Deliveries extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static final String ARG_POSITION = "position";
+    private static final String ARG_LIST_DELIVERY = "listdelivery";
+
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+//    private String mParam1;
+//    private String mParam2;
+    private int position;
+    private List<Delivery> deliveries;
 
     private OnFragmentInteractionListener mListener;
 
@@ -41,20 +48,19 @@ public class Deliveries extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Deliveries.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Deliveries newInstance() {
+    public static Deliveries newInstance(List<Delivery> deliveries) {
         Deliveries fragment = new Deliveries();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_LIST_DELIVERY, (Serializable) deliveries);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static Deliveries newInstance(int position, List<Delivery> deliveries) {
+        Deliveries fragment = new Deliveries();
+        Bundle args = new Bundle();
+        args.putInt(ARG_POSITION, position);
+        args.putSerializable(ARG_LIST_DELIVERY, (Serializable) deliveries);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,10 +68,11 @@ public class Deliveries extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
+
+        if (getArguments() != null) {
+            position = getArguments().getInt(ARG_POSITION);
+            deliveries = (List<Delivery>) getArguments().getSerializable(ARG_LIST_DELIVERY);
+        }
     }
 
     @Override
@@ -81,16 +88,6 @@ public class Deliveries extends Fragment {
         myRecyclerView.setLayoutManager(myLinearLayoutManager);
 
         //TO-DO
-        List<Delivery> deliveries = new ArrayList<>();
-
-        Delivery delivery = new Delivery("Bravi Ragazzi", "Streatham High rd", "a", "https://thelondonpizzablog.files.wordpress.com/2014/05/braviragazzi_bottom.jpg");
-        Delivery delivery2 = new Delivery("Joe's kitchen", "Streatham High rd", "a", "https://thelondonpizzablog.files.wordpress.com/2014/05/braviragazzi_bottom.jpg");
-        Delivery delivery3 = new Delivery("asd", "Streatham High rd", "a", "https://thelondonpizzablog.files.wordpress.com/2014/05/braviragazzi_bottom.jpg");
-
-        deliveries.add(delivery);
-        deliveries.add(delivery2);
-        deliveries.add(delivery3);
-
         DeliveryAdapter adapter = new DeliveryAdapter(getContext(), deliveries);
         myRecyclerView.setAdapter(adapter);
 

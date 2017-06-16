@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -19,21 +17,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
+
+import org.apmem.tools.layouts.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import layout.Deliveries;
 import layout.Explore;
+import model.Delivery;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Deliveries.OnFragmentInteractionListener, Explore.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
+        Deliveries.OnFragmentInteractionListener,
+        Explore.OnFragmentInteractionListener {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
+    ArrayList<String> filteredCuisines;
+    ArrayList<CheckedTextView> listCheckedTextView;
+    List<Delivery> deliveries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,7 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,16 +64,39 @@ public class MainActivity extends AppCompatActivity
         });
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.setDrawerListener(toggle);
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // TODO Auto-generated method stub
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.START);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // TODO Auto-generated method stub
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+                } else {
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+                }
+            }
+
+        };
+
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         SeekBar seekBar = (SeekBar) findViewById(R.id.my_seekbar);
+
         seekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -83,16 +115,75 @@ public class MainActivity extends AppCompatActivity
 
         });
 
-        switchFragment(0);
+        // Flowlayout ------------------------------------
+
+        ArrayList<String> cuisines = new ArrayList<>();
+        cuisines.add("African");
+        cuisines.add("Arabic");
+        cuisines.add("American");
+        cuisines.add("Burger");
+        cuisines.add("Breakfast");
+        cuisines.add("Caribbea");
+        cuisines.add("Chicken");
+        cuisines.add("Danish");
+
+        listCheckedTextView = new ArrayList<>();
+        filteredCuisines = new ArrayList<>();
+        FlowLayout fl = (FlowLayout) findViewById(R.id.flow_layout);
+
+        View.OnClickListener myOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckedTextView) v).isChecked()) {
+                    filteredCuisines.remove(((CheckedTextView) v).getText().toString());
+
+                    ((CheckedTextView) v).setChecked(false);
+                    ((CheckedTextView) v).setTextColor(getResources().getColor(R.color.btn_default_text_color));
+                    v.setBackground(getResources().getDrawable(R.drawable.button_default));
+                } else {
+                    filteredCuisines.add(((CheckedTextView) v).getText().toString());
+
+                    ((CheckedTextView) v).setChecked(true);
+                    ((CheckedTextView) v).setTextColor(getResources().getColor(R.color.btn_activated_text_color));
+                    v.setBackground(getResources().getDrawable(R.drawable.button_activated));
+                }
+            }
+        };
+
+        FlowLayout.LayoutParams layoutParams;
+        CheckedTextView myCheckedTextView;
+        for (String i : cuisines) {
+            layoutParams = new FlowLayout.LayoutParams(FlowLayout.LayoutParams.WRAP_CONTENT, FlowLayout.LayoutParams.WRAP_CONTENT);
+            myCheckedTextView = new CheckedTextView(this);
+
+            myCheckedTextView.setText(i);
+            myCheckedTextView.setTextColor(getResources().getColor(R.color.btn_default_text_color));
+            myCheckedTextView.setBackground(getResources().getDrawable(R.drawable.button_default));
+            myCheckedTextView.setChecked(false);
+            myCheckedTextView.setOnClickListener(myOnClickListener);
+
+            layoutParams.setMargins(5, 5, 5, 5);
+            fl.addView(myCheckedTextView, layoutParams);
+            listCheckedTextView.add(myCheckedTextView);
+        }
+
+        // -----------------
+        deliveries = new ArrayList<>();
+
+        deliveries.add(new Delivery("Casual Lunch", "Bravi Ragazzi", "Streatham High rd", "a", "https://thelondonpizzablog.files.wordpress.com/2014/05/braviragazzi_bottom.jpg", "$$$"));
+        deliveries.add(new Delivery("Casual Lunch", "Joe's kitchen", "Streatham High rd", "a", "https://thelondonpizzablog.files.wordpress.com/2014/05/braviragazzi_bottom.jpg", "$$"));
+        deliveries.add(new Delivery("Winter warmers", "asd", "Streatham High rd", "a", "https://thelondonpizzablog.files.wordpress.com/2014/05/braviragazzi_bottom.jpg", "$$"));
+        deliveries.add(new Delivery("Lunch", "Bravi Ragazzi", "Streatham High rd", "a", "https://thelondonpizzablog.files.wordpress.com/2014/05/braviragazzi_bottom.jpg", "$$$"));
+        deliveries.add(new Delivery("Lunch", "Joe's kitchen", "Streatham High rd", "a", "https://thelondonpizzablog.files.wordpress.com/2014/05/braviragazzi_bottom.jpg", "$$"));
+
+        navigationView.getMenu().performIdentifierAction(R.id.nav_deliveries, 0);
         setTitle("Deliveries");
     }
 
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,GravityCompat.END);
             drawerLayout.closeDrawer(GravityCompat.START);
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -115,15 +206,12 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_filters) {
             if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
                 drawerLayout.closeDrawer(GravityCompat.END);
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
             } else {
                 drawerLayout.openDrawer(GravityCompat.END);
             }
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -133,16 +221,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment fm = null;
         if (id == R.id.nav_deliveries) {
-            switchFragment(0);
-            item.setChecked(true);
-            setTitle(item.getTitle());
-            drawerLayout.closeDrawers();
+            fm = Deliveries.newInstance(deliveries);
         } else if (id == R.id.nav_explore) {
-            switchFragment(1);
-            item.setChecked(true);
-            setTitle(item.getTitle());
-            drawerLayout.closeDrawers();
+            fm = Explore.newInstance(deliveries);
         } else if (id == R.id.nav_orders_history) {
 
         } else if (id == R.id.nav_contributions) {
@@ -150,33 +233,14 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_help_and_feedback) {
 
         }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_placeholder, fm)
+                .commitAllowingStateLoss();
 
-        drawerLayout.closeDrawer(GravityCompat.START);
+        item.setChecked(true);
+        setTitle(item.getTitle());
+        drawerLayout.closeDrawers();
         return true;
-    }
-
-    private void switchFragment(int a) {
-        android.support.v4.app.Fragment fragment = null;
-        Class FragmentClass;
-        switch (a) {
-            case 0:
-                FragmentClass = Deliveries.class;
-                break;
-            case 1:
-                FragmentClass = Explore.class;
-                break;
-            default:
-                FragmentClass = Deliveries.class;
-        }
-        try {
-            fragment = (Fragment) FragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        FragmentManager fm = getSupportFragmentManager();
-
-        FrameLayout fl = (FrameLayout) findViewById(R.id.fragment_placeholder);
-        fm.beginTransaction().replace(R.id.fragment_placeholder, fragment).commit();
     }
 
     @Override
@@ -198,4 +262,22 @@ public class MainActivity extends AppCompatActivity
         toggle.onConfigurationChanged(newConfig);
     }
 
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_all:
+                for (CheckedTextView i : listCheckedTextView) {
+                    if (!i.isChecked()) {
+                        i.performClick();
+                    }
+                }
+                break;
+            case R.id.btn_none:
+                for (CheckedTextView i : listCheckedTextView) {
+                    if (i.isChecked()) {
+                        i.performClick();
+                    }
+                }
+                break;
+        }
+    }
 }

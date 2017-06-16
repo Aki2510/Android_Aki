@@ -62,7 +62,6 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
             tvCountry = (TextView) v.findViewById(R.id.deliveries_food_country);
             tvPriceRange = (TextView) v.findViewById(R.id.deliveries_food_pricerange);
             ivImage = (ImageView) v.findViewById(R.id.deliveries_food_image);
-
         }
     }
 }
