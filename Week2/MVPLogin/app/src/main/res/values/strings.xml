@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MVPLogin</string>
+
+    <string name="shared_references_file_name">sg.vinova.aki.mavlogin_reffile</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+</resources>
