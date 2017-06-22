@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Week1_foody</string>
+    <string name="title_select">Select</string>
+    <string name="title_magazine">Magazine</string>
+    <string name="title_profile">Me</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
