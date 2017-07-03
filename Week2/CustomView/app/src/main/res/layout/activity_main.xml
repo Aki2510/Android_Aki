@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swagpoints="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sg.vinova.aki.customview.MainActivity">
+
+    <sg.vinova.aki.customview.SwagPoints
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@color/colorPrimary"
+        swagpoints:arcColor="@color/colorArc"
+        swagpoints:max="1000"
+        swagpoints:min="100"
+        swagpoints:progressColor="@color/colorProgress"
+        swagpoints:step="100"/>
+</android.support.constraint.ConstraintLayout>

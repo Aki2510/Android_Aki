@@ -1,0 +1,27 @@
+#
+# generated on 2017/06/26 01:57:08
+#
+# --table-start--
+dataClass=sg.vinova.aki.database.model.SampleData
+tableName=sampledata
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=image
+# --field-end--
+# --field-start--
+fieldName=imageName
+canBeNull=false
+# --field-end--
+# --field-start--
+fieldName=imagePath
+# --field-end--
+# --field-start--
+fieldName=description
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

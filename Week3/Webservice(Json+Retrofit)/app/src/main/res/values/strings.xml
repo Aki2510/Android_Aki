@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Webservice (Json+Retrofit)</string>
+
+    <string name="weather_api_key">b6af2b0a9aad412eea31db2c8a794298</string>
+
+    <string name="accuweather_api_key">zu2apmvRPnOoGERb2KZlESH2u7MqfN1o</string>
+    <string name="accuweather_hcmc_id">353981</string>
+    <string name="accuweather_ha_noi_id">353412</string>
+
+</resources>
